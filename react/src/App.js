@@ -10,39 +10,36 @@ class App extends React.Component{
   constructor(props){ //need to have super(props) for constructor
     super(props); //super just calls React.Component
 
-    this.state = { artItems: null};
+    this.state = {
+      articleItems:[], // Items from Database
+      selectedItem: '' // Item that is selected from SideBar
+    };
+    this.onSelected = this.onSelected.bind(this);
+  }
+
+
+  onSelected(selectedItem){
+    console.log(selectedItem)
+    this.setState({selectedItem});
   }
 
   componentDidMount(){  //get info from Database
     const url = 'http://localhost:5000/items';
     axios.get(url).then(response => {
-          this.articleItems = response.data.items;
-          console.log(this.articleItems); // this.articleItems is Array of dictionary
-          for (var i = 0; i < this.articleItems.length; ++i){
-            console.log(this.articleItems[i].name + " ...");
-          }
-    })
-  }
-  /* state={
-    articleItems:[]
-  };
-  componentDidMount(){  //get info from Database
-    const url = 'http://localhost:5000/items';
-    axios.get(url).then(res=>{
-      console.log(res);
-      //console.log(res.data + "∆");
-      this.setState({ articleItems: res.data});
-      for (var i = 0; i < this.articleItems.length; ++i){
+      const articleItems = response.data.items;
+      this.setState({articleItems: articleItems})
+      /*for (var i = 0; i < this.articleItems.length; ++i){
         console.log(this.articleItems[i].name + " ...");
-      }
+      }*/
     })
-  } */
-  render(){
-    //const articleItems = this.props.articleItems;
+    .catch(err => console.log(err))
+  }
+
+   render(){
     return (
       <Container fluid style={{minHeight:"100%"}}>
          <Row style={{minHeight:"100%"}}>
-          <SideBar />
+          <SideBar articleItems={this.state.articleItems} onSelect={this.onSelected}/>
           <Col md="10">
             <Header />
             <br/>
@@ -52,13 +49,29 @@ class App extends React.Component{
       </Container>
     );
   }
-  /*render(){
+  /* componentDidMount(){  //get info from Database
+    const url = 'http://localhost:5000/items';
+    axios.get(url).then(response => {
+          this.articleItems = response.data.items;
+          console.log(this.articleItems); // this.articleItems is Array of dictionary
+          for (var i = 0; i < this.articleItems.length; ++i){
+            console.log(this.articleItems[i].name + " ...");
+          }
+    })
+    console.log(this.articleItem + " sdoufhsdf");
+  } */
+
+  /* render(){
     //const articleItems = this.props.articleItems;
+    //TODO - pass articleItems to Components
     return (
+    <>
       <ul>
-      { this.state.articleItems.map (articleItem => <li>{articleItem.name}</li>)}
+        { this.state.articleItems.map(articleItem => <li>{articleItem.name}</li>)}
       </ul>
-    } */
+    </>
+    )
+  } */
 }
 
 
