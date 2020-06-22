@@ -6,7 +6,7 @@ export default class Body extends React.Component{
     return(
       <Row>
          <Col md="12" style={{backgroundColor:"#C5D246"}}>
-           <p>this is the body</p>
+           <p>{this.props.selectedArticle ? this.props.selectedArticle.info : '' }</p>
          </Col>
       </Row>
     )

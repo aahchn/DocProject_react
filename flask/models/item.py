@@ -14,16 +14,20 @@ class ItemModel(db.Model):
     #name, info and category_id will be passed into here from tablename above
     def __init__(self, name, info, category_id):
         self.name = name
-        self.info = info  # TODO - change to info
-        self.category_id = category_id # TODO - change to category
+        self.info = info
+        self.category_id = category_id
 
-    def json(self):  #TODO
-        return {'name': self.name, 'info': self.info} #TODO - change info to body
+    def json(self):
+        return {'name': self.name, 'info': self.info, 'category_id': self.category_id, 'id': self.id}
 
     @classmethod
     def find_by_name(cls, name):
         return cls.query.filter_by(name=name).first()  #.query is from db.Model (SQLALchemy)
         # same as SELECT * FROM items WHERE name = name LIMIT 1 (return only the first result)
+
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
 
     def save_to_db(self):  #insert method
         db.session.add(self)

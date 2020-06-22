@@ -4,6 +4,11 @@ from models.item import ItemModel
 
 class Item(Resource):
     parser = reqparse.RequestParser()
+    parser.add_argument('name',
+                        type=str,
+                        required=True,
+                        help="Every item needs a name."
+                        )
     parser.add_argument('info',
                         type=str,
                         required=True,
@@ -15,9 +20,16 @@ class Item(Resource):
                         help="Every item needs a category_id."
                         )
 
+
     #@jwt_required() - do not need authentication yet
     def get(self, name):
         item = ItemModel.find_by_name(name)
+        if item:
+            return item.json()
+        return {'message': 'Item not found'}, 404
+
+    def get(self, id):
+        item = ItemModel.find_by_id(id)
         if item:
             return item.json()
         return {'message': 'Item not found'}, 404
@@ -26,9 +38,13 @@ class Item(Resource):
         if ItemModel.find_by_name(name):
             return {'message': "An item with name '{}' already exists.".format(name)}, 400
 
-        data = Item.parser.parse_args()
+        #if ItemModel.find_by_id(id):
+        #    return {'message': "An item with id '{}' already exists.".format(name)}, 400
 
-        item = ItemModel(name, **data)
+
+        data = Item.parser.parse_args()
+        #print(data)
+        item = ItemModel(**data)
 
         try:
             item.save_to_db()

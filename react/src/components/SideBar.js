@@ -6,14 +6,11 @@ export default class SideBar extends React.Component{
   constructor(props){
     super(props);
 
-    this.state = {
-      selectedChoice: ''
-    }
   }
 
-  selectItem = (name) => {
-    console.log(name)
-    this.props.onSelect(name)
+  selectItem = (id) => {
+    //console.log(name)
+    this.props.onSelect(id)
   }
 
   render(){
@@ -22,7 +19,7 @@ export default class SideBar extends React.Component{
     <h5>Sidebar</h5>
       <ul style={{marginTop:"10px"}}>
        { this.props.articleItems.map(articleItem => (
-         <li onClick={() => this.selectItem(articleItem.name)}>
+         <li onClick={() => this.selectItem(articleItem.id)}>
           {articleItem.name}
          </li>))}
     </ul>

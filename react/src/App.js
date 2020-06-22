@@ -12,66 +12,50 @@ class App extends React.Component{
 
     this.state = {
       articleItems:[], // Items from Database
-      selectedItem: '' // Item that is selected from SideBar
+      selectedArticle: null
     };
-    this.onSelected = this.onSelected.bind(this);
+    this.onSelectedItem = this.onSelectedItem.bind(this);
   }
 
 
-  onSelected(selectedItem){
-    console.log(selectedItem)
-    this.setState({selectedItem});
-  }
+ onSelectedItem(selectedId){
+   this.getArticleById(selectedId);
+ }
+
+ getArticleById (articleItemId){
+   this.state.articleItems.filter(articleItem => articleItem.id)
+   const info = this.state.articleItems.filter(articleItem => articleItemId === articleItem.id)
+   console.log(info)
+   const result = info.length > 0 ? info[0] : null
+   this.setState({selectedArticleItem: result})
+ }
 
   componentDidMount(){  //get info from Database
     const url = 'http://localhost:5000/items';
     axios.get(url).then(response => {
       const articleItems = response.data.items;
-      this.setState({articleItems: articleItems})
-      /*for (var i = 0; i < this.articleItems.length; ++i){
-        console.log(this.articleItems[i].name + " ...");
-      }*/
+      this.setState({articleItems: articleItems});
     })
-    .catch(err => console.log(err))
+    .catch(err => console.log(err + ' error'))
   }
 
    render(){
     return (
       <Container fluid style={{minHeight:"100%"}}>
          <Row style={{minHeight:"100%"}}>
-          <SideBar articleItems={this.state.articleItems} onSelect={this.onSelected}/>
+          <SideBar
+             articleItems={this.state.articleItems}
+             onSelect={this.onSelectedItem}
+          />
           <Col md="10">
-            <Header />
+            <Header selectedArticle = {this.state.selectedArticleItem} />
             <br/>
-            <Body />
+            <Body selectedArticle = {this.state.selectedArticleItem} />
           </Col>
          </Row>
       </Container>
     );
   }
-  /* componentDidMount(){  //get info from Database
-    const url = 'http://localhost:5000/items';
-    axios.get(url).then(response => {
-          this.articleItems = response.data.items;
-          console.log(this.articleItems); // this.articleItems is Array of dictionary
-          for (var i = 0; i < this.articleItems.length; ++i){
-            console.log(this.articleItems[i].name + " ...");
-          }
-    })
-    console.log(this.articleItem + " sdoufhsdf");
-  } */
-
-  /* render(){
-    //const articleItems = this.props.articleItems;
-    //TODO - pass articleItems to Components
-    return (
-    <>
-      <ul>
-        { this.state.articleItems.map(articleItem => <li>{articleItem.name}</li>)}
-      </ul>
-    </>
-    )
-  } */
 }
 
 

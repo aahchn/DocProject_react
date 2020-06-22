@@ -16,7 +16,7 @@ class category(Resource):
         try:
             category.save_to_db()
         except:
-            return {"message": "An error occurred creating the category."}, 500
+            return {"message": "A error occurred creating the category."}, 500
 
         return category.json(), 201
 

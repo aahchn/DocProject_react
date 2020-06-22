@@ -22,6 +22,9 @@ class categoryModel(db.Model):
     def find_by_name(cls, name):
         return cls.query.filter_by(name=name).first()  #.query is from db.Model (SQLALchemy)
 
+    #def find_by_id(cls, _id):
+    #    return cls.query.filter_by(_id=id).first()  #.query is from db.Model (SQLALchemy)
+
     def save_to_db(self):  #insert method
         db.session.add(self)
         db.session.commit()
