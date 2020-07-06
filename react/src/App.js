@@ -2,9 +2,11 @@ import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import SideBar from './components/SideBar';
 import Header from './components/Header';
+import Form from './components/Form';
 import Body from './components/Body';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 class App extends React.Component{
   constructor(props){ //need to have super(props) for constructor
@@ -39,6 +41,8 @@ class App extends React.Component{
     .catch(err => console.log(err + ' error'))
   }
 
+
+
    render(){
     return (
       <Container fluid style={{minHeight:"100%"}}>
@@ -49,6 +53,8 @@ class App extends React.Component{
           />
           <Col md="10">
             <Header selectedArticle = {this.state.selectedArticleItem} />
+            <br/>
+            <Form/>
             <br/>
             <Body selectedArticle = {this.state.selectedArticleItem} />
           </Col>
