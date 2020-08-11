@@ -13,7 +13,8 @@ class App extends React.Component{
     super(props); //super just calls React.Component
 
     this.state = {
-      articleItems:[], // Items from Database
+      articleItems: [], // Items from Database
+      //need to append data to here after POST request from Form.js
       selectedArticle: null
     };
     this.onSelectedItem = this.onSelectedItem.bind(this);
@@ -27,7 +28,7 @@ class App extends React.Component{
  getArticleById (articleItemId){
    this.state.articleItems.filter(articleItem => articleItem.id)
    const info = this.state.articleItems.filter(articleItem => articleItemId === articleItem.id)
-   console.log(info)
+   console.log(info + ' this is from App.js')
    const result = info.length > 0 ? info[0] : null
    this.setState({selectedArticleItem: result})
  }
@@ -42,10 +43,9 @@ class App extends React.Component{
   }
 
 
-
    render(){
     return (
-      <Container fluid style={{minHeight:"100%"}}>
+      <Container fluid style={{minHeight:"100%", backgroundColor:'#576166'}} >
          <Row style={{minHeight:"100%"}}>
           <SideBar
              articleItems={this.state.articleItems}
@@ -54,7 +54,7 @@ class App extends React.Component{
           <Col md="10">
             <Header selectedArticle = {this.state.selectedArticleItem} />
             <br/>
-            <Form/>
+            <Form articleItems={this.state.articleItems} />
             <br/>
             <Body selectedArticle = {this.state.selectedArticleItem} />
           </Col>
