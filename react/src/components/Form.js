@@ -65,51 +65,80 @@ export default class Form extends React.Component{
       })
     }
 
+  postForm(){
+    const {name, info, category_id} = this.state
+    return (
+      <form onSubmit={this.postSubmitHandler}>
+       <h5> POST </h5>
+         <input type="text" placeholder="name" name="name"
+          value={name} onChange={this.postChangeHandler} required />
+         &nbsp;
+         <input type="text" placeholder="info" name="info"
+          value={info} onChange={this.postChangeHandler} />
+         &nbsp;
+         <input type="number" placeholder="category ID" name="category_id"
+          value={category_id} onChange={this.postChangeHandler} required />
+         &nbsp;
+         <button type="submit"> Post </button>
+      </form>
+      )
+  }
+
+  putForm(){
+   const {name, info, category_id} = this.state
+   return(
+     <form onSubmit={this.putSubmitHandler}>
+     <h5> PUT </h5>
+       <input type="text" placeholder="name" name="name"
+       value={name} onChange={this.putChangeHandler} required />
+       &nbsp;
+       <input type="text" placeholder="info" name="info"
+       value={info} onChange={this.putChangeHandler} />
+       &nbsp;
+       <input type="number" placeholder="category ID" name="category_id"
+       value={category_id} onChange={this.putChangeHandler} />
+       &nbsp;
+       <button type="submit"> Put </button>
+     </form>
+   )
+  }
+
+  deleteForm(){
+    const {name, info, category_id} = this.state
+    return(<form onSubmit={this.deleteSubmitHandler}>
+     <h5> DELETE </h5>
+       <input type="text" placeholder="name" name="name"
+       value={name} onChange={this.deleteChangeHandler} />
+       &nbsp;
+       <button type="submit"> Delete </button>
+     </form>
+   )
+  }
+
+  switchFormBody = () => {
+    var formBody = null;
+    switch (this.props.formToShow) {
+      case "post":
+        formBody = this.postForm()
+        break;
+      case "put":
+        formBody = this.putForm()
+        break;
+      case "delete":
+        formBody = this.deleteForm()
+        break;
+      default:
+        return null;
+    }
+    return formBody;
+  }
 
   render(){
-    const {name, info, category_id} = this.state
+
     // console.log(this.artItems) //UNDEF
     return(
       <div>
-
-       <form onSubmit={this.postSubmitHandler}>
-        <h5> POST </h5>
-          <input type="text" placeholder="name" name="name"
-           value={name} onChange={this.postChangeHandler} required />
-          &nbsp;
-          <input type="text" placeholder="info" name="info"
-           value={info} onChange={this.postChangeHandler} />
-          &nbsp;
-          <input type="number" placeholder="category ID" name="category_id"
-           value={category_id} onChange={this.postChangeHandler} required />
-          &nbsp;
-          <button type="submit"> Post </button>
-       </form>
-       <br/>
-
-       <form onSubmit={this.putSubmitHandler}>
-        <h5> PUT </h5>
-          <input type="text" placeholder="name" name="name"
-          value={name} onChange={this.putChangeHandler} required />
-          &nbsp;
-          <input type="text" placeholder="info" name="info"
-          value={info} onChange={this.putChangeHandler} />
-          &nbsp;
-          <input type="number" placeholder="category ID" name="category_id"
-          value={category_id} onChange={this.putChangeHandler} />
-          &nbsp;
-          <button type="submit"> Put </button>
-        </form>
-       <br/>
-
-       <form onSubmit={this.deleteSubmitHandler}>
-        <h5> DELETE </h5>
-          <input type="text" placeholder="name" name="name"
-          value={name} onChange={this.deleteChangeHandler} />
-          &nbsp;
-          <button type="submit"> Delete </button>
-        </form>
-
+      { this.switchFormBody() }
       </div>
     )
    }

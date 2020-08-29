@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Dropdown, Row } from 'react-bootstrap';
 import SideBar from './components/SideBar';
 import Header from './components/Header';
 import Form from './components/Form';
@@ -15,7 +15,8 @@ class App extends React.Component{
     this.state = {
       articleItems: [], // Items from Database
       //need to append data to here after POST request from Form.js
-      selectedArticle: null
+      selectedArticle: null,
+      formToShow: 'post'
     };
     this.onSelectedItem = this.onSelectedItem.bind(this);
   }
@@ -42,6 +43,9 @@ class App extends React.Component{
     .catch(err => console.log(err + ' error'))
   }
 
+  showComponent(value){
+    this.setState({formToShow: value })
+  }
 
    render(){
     return (
@@ -54,7 +58,18 @@ class App extends React.Component{
           <Col md="10">
             <Header selectedArticle = {this.state.selectedArticleItem} />
             <br/>
-            <Form articleItems={this.state.articleItems} />
+            <Dropdown>
+             <Dropdown.Toggle variant="success" id="dropdown-basic">
+               Select Request
+             </Dropdown.Toggle>
+             <Dropdown.Menu>
+                <Dropdown.Item onClick={() => {this.showComponent('post')}}>POST</Dropdown.Item>
+                <Dropdown.Item onClick={() => {this.showComponent('put')}}>PUT</Dropdown.Item>
+                <Dropdown.Item onClick={() => {this.showComponent('delete')}}>DELETE</Dropdown.Item>
+             </Dropdown.Menu>
+            </Dropdown>
+            <br/>
+            <Form articleItems={this.state.articleItems} formToShow={this.state.formToShow} />
             <br/>
             <Body selectedArticle = {this.state.selectedArticleItem} />
           </Col>
