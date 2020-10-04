@@ -57,7 +57,10 @@ class Item(Resource):
         item = ItemModel.find_by_name(name)
         if item:
             item.delete_from_db()
-            return {'message': 'Item deleted.'}
+            return {
+                'id': item.id,  # NEW, return deleted item id to the frontend so we can remove that item in the frontend state to keep it in sync with the backend.
+                'message': 'Item deleted.'
+            }
         return {'message': 'Item not found.'}, 404
 
     def put(self, name):

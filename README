@@ -1,0 +1,8 @@
+How to run backend
+1) Navigate to flask folder
+2) python create_tables.py
+3) python app.py
+
+How to run frontend
+1) Navigate to react folder
+2) npm run start
